@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout - MyShop</title>
+<style>
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #f5f6fa;
+  margin: 0;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #2c3e50;
+  padding: 15px 40px;
+}
+.navbar h1 { color: #fff; font-size: 24px; }
+.navbar ul { list-style: none; display: flex; }
+.navbar ul li { margin-left: 20px; }
+.navbar ul li a { color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s ease; }
+.navbar ul li a:hover { color: #1abc9c; }
+
+/* Checkout Container */
+.checkout {
+  max-width: 800px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.checkout h2 { margin-bottom: 20px; font-size: 26px; color: #2c3e50; border-bottom: 2px solid #1abc9c; padding-bottom: 10px; }
+
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-weight: 500; margin-bottom: 8px; }
+.form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; }
+
+/* Payment Methods */
+.payment-methods {
+  margin-top: 10px;
+}
+.payment-methods label {
+  display: flex;
+  align-items: center;
+  background: #ecf0f1;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: background 0.3s ease;
+}
+.payment-methods label:hover { background: #dcdde1; }
+.payment-methods input { margin-right: 10px; }
+
+/* Credit Card Form */
+#card-details { display: none; margin-top: 15px; }
+#card-details input { margin-bottom: 10px; }
+
+/* Confirm Button */
+.confirm-btn {
+  margin-top: 20px;
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: #1abc9c;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.confirm-btn:hover { background: #16a085; }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+  <h1>MyShop</h1>
+  <ul>
+    <li><a href="home.html">Home</a></li>
+    <li><a href="cart.html">Cart</a></li>
+    <li><a href="#">Profile</a></li>
+  </ul>
+</div>
+
+<!-- Checkout Form -->
+<div class="checkout">
+  <h2>Delivery & Payment Details</h2>
+  <form id="checkoutForm">
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="name" placeholder="Enter your full name" required>
+    </div>
+    <div class="form-group">
+      <label>Address</label>
+      <input type="text" id="address" placeholder="Enter delivery address" required>
+    </div>
+    <div class="form-group">
+      <label>Phone Number</label>
+      <input type="tel" id="phone" placeholder="e.g. +92 300 1234567" required>
+    </div>
+
+    <div class="form-group">
+      <label>Payment Method</label>
+      <div class="payment-methods">
+        <label><input type="radio" name="payment" value="card" required onclick="showCardForm(true)"> Credit Card</label>
+        <label><input type="radio" name="payment" value="cod" onclick="showCardForm(false)"> Cash on Delivery</label>
+        <label><input type="radio" name="payment" value="paypal" onclick="showCardForm(false)"> PayPal</label>
+      </div>
+    </div>
+
+    <!-- Credit Card Details -->
+    <div id="card-details">
+      <div class="form-group">
+        <label>Card Number</label>
+        <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="16">
+      </div>
+      <div class="form-group">
+        <label>Expiry Date</label>
+        <input type="month" id="expiryDate" required>
+      </div>
+      <div class="form-group">
+        <label>CVV</label>
+        <input type="text" id="cvv" placeholder="123" maxlength="3">
+      </div>
+    </div>
+
+    <button type="submit" class="confirm-btn">Confirm Order</button>
+  </form>
+</div>
+
+<script>
+function showCardForm(show) {
+  document.getElementById("card-details").style.display = show ? "block" : "none";
+}
+
+document.getElementById("checkoutForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  let name = document.getElementById("name").value;
+  let address = document.getElementById("address").value;
+  let phone = document.getElementById("phone").value;
+  let payment = document.querySelector('input[name="payment"]:checked');
+
+  if (!payment) {
+    alert("⚠️ Please select a payment method.");
+    return;
+  }
+
+  if (payment.value === "card") {
+    let cardNumber = document.getElementById("cardNumber").value;
+    let expiryDate = document.getElementById("expiryDate").value;
+    let cvv = document.getElementById("cvv").value;
+
+    if (!cardNumber || !expiryDate || !cvv) {
+      alert("⚠️ Please fill all card details.");
+      return;
+    }
+  }
+
+  // Save order for demo
+  let order = {
+    name: name,
+    address: address,
+    phone: phone,
+    payment: payment.value,
+    items: JSON.parse(localStorage.getItem("cart")) || []
+  };
+  localStorage.setItem("order", JSON.stringify(order));
+
+  // Clear cart
+  localStorage.removeItem("cart");
+
+  // Redirect to success page
+  window.location.href = "success.html";
+});
+</script>
+</body>
+</html>

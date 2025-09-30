@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Success - MyShop</title>
+<style>
+/* General Styles */
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #f5f6fa;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Success Container */
+.success-container {
+  background: #fff;
+  padding: 50px 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+  animation: fadeIn 1s ease;
+}
+
+/* Checkmark Animation */
+.checkmark {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 4px solid #27ae60;
+  position: relative;
+  margin-bottom: 20px;
+  animation: scaleUp 0.5s ease;
+}
+
+.checkmark::after {
+  content: '';
+  position: absolute;
+  left: 22px;
+  top: 10px;
+  width: 18px;
+  height: 36px;
+  border-right: 4px solid #27ae60;
+  border-bottom: 4px solid #27ae60;
+  transform: rotate(45deg);
+  animation: drawCheck 0.5s ease 0.5s forwards;
+  opacity: 0;
+}
+
+/* Text Styles */
+.success-container h1 {
+  color: #27ae60;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+.success-container p {
+  font-size: 16px;
+  color: #2c3e50;
+  margin-bottom: 25px;
+}
+
+/* Order Summary */
+.order-summary {
+  text-align: left;
+  background: #ecf0f1;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+}
+.order-summary h3 {
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+.order-summary p {
+  margin: 6px 0;
+  font-size: 15px;
+}
+
+/* Home Button */
+.home-btn {
+  display: inline-block;
+  padding: 14px 30px;
+  background: #1abc9c;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.home-btn:hover {
+  background: #16a085;
+  transform: scale(1.05);
+}
+
+/* Animations */
+@keyframes drawCheck {
+  to { opacity: 1; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleUp {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+</style>
+</head>
+<body>
+
+<div class="success-container">
+  <div class="checkmark"></div>
+  <h1>✅ Order Confirmed!</h1>
+  <p>Thank you for shopping with us. Your order has been placed successfully.</p>
+
+  <div class="order-summary" id="order-summary">
+    <h3>Order Summary:</h3>
+    <!-- Order details will be populated by JS -->
+  </div>
+
+  <a href="home.html" class="home-btn">Back to Home</a>
+</div>
+
+<script>
+// Retrieve order from localStorage
+let order = JSON.parse(localStorage.getItem("order"));
+const summaryDiv = document.getElementById("order-summary");
+
+if (order && order.items.length > 0) {
+  let total = 0;
+  order.items.forEach(item => {
+    total += item.price;
+    summaryDiv.innerHTML += `<p>${item.name} - $${item.price}</p>`;
+  });
+  summaryDiv.innerHTML += `<hr><p><strong>Total: $${total}</strong></p>`;
+  summaryDiv.innerHTML += `<p><strong>Delivery:</strong> ${order.address}</p>`;
+  summaryDiv.innerHTML += `<p><strong>Payment Method:</strong> ${order.payment}</p>`;
+} else {
+  summaryDiv.innerHTML += `<p>No order details found.</p>`;
+}
+</script>
+
+</body>
+</html>
