@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - E-commerce</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #f5f6fa;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #2c3e50;
+      padding: 15px 40px;
+      position: relative;
+    }
+
+    .navbar h1 {
+      color: #fff;
+      font-size: 24px;
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .navbar ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .navbar ul li a:hover {
+      color: #1abc9c;
+    }
+
+    /* Hamburger Menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background: #fff;
+      transition: 0.3s;
+    }
+
+    /* Products Grid */
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 40px;
+    }
+
+    .product {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    }
+
+    .product img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .product h2 {
+      margin: 15px 0 10px;
+      font-size: 20px;
+      color: #2c3e50;
+    }
+
+    .product p {
+      font-size: 18px;
+      color: #27ae60;
+      font-weight: bold;
+    }
+
+    .product button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      background: #1abc9c;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: background 0.3s ease;
+    }
+
+    .product button:hover {
+      background: #16a085;
+    }
+
+    /* Cart Page */
+    .cart {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .cart h2 {
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ecf0f1;
+      padding: 12px 15px;
+      margin-bottom: 12px;
+      border-radius: 5px;
+    }
+
+    .cart-item p {
+      font-size: 16px;
+    }
+
+    .cart-item button {
+      background: #e74c3c;
+      border: none;
+      color: #fff;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .cart-item button:hover {
+      background: #c0392b;
+    }
+
+    #total {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: right;
+      color: #2c3e50;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .products {
+        padding: 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-wrap: wrap;
+        padding: 15px 20px;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .navbar ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      .navbar ul.active {
+        display: flex;
+      }
+
+      .navbar ul li {
+        margin: 10px 0;
+      }
+
+      .products {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        padding: 15px;
+      }
+
+      .product img {
+        height: 150px;
+      }
+
+      .product h2 {
+        font-size: 18px;
+      }
+
+      .product p {
+        font-size: 16px;
+      }
+
+      .product button {
+        font-size: 14px;
+        padding: 8px 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .products {
+        grid-template-columns: 1fr;
+        padding: 10px;
+      }
+
+      .product img {
+        height: 120px;
+      }
+
+      .product h2 {
+        font-size: 16px;
+      }
+
+      .product p {
+        font-size: 14px;
+      }
+
+      .product button {
+        font-size: 13px;
+        padding: 6px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <h1>MyShop</h1>
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <ul id="nav-links">
+      <li><a href="home.html">Home</a></li>
+      <li><a href="cart.html">Cart 🛒</a></li>
+      <li><a href="./login.html">Logout</a></li>
+    </ul>
+  </nav>
+
+  <section class="products">
+    <div class="product">
+      <img src="./e images/download (3).jpeg" alt="Product 1">
+      <h2>Product 1</h2>
+      <p>$20</p>
+      <button onclick="addToCart('Product 1', 20)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="./e images/download (1).jpeg" alt="Product 2">
+      <h2>Product 2</h2>
+      <p>$35</p>
+      <button onclick="addToCart('Product 2', 35)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="./e images/download (4).jpeg" alt="Product 3">
+      <h2>Product 3</h2>
+      <p>$50</p>
+      <button onclick="addToCart('Product 3', 50)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="./e images/download (4).jpeg" alt="Product 3">
+      <h2>Product 3</h2>
+      <p>$50</p>
+      <button onclick="addToCart('Product 3', 50)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="./e images/download (5).jpeg" alt="Product 3">
+      <h2>Product 3</h2>
+      <p>$50</p>
+      <button onclick="addToCart('Product 3', 50)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="./e images/download.jpeg" alt="Product 3">
+      <h2>Product 3</h2>
+      <p>$50</p>
+      <button onclick="addToCart('Product 3', 50)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="./e images/download (3).jpeg" alt="Product 3">
+      <h2>Product 3</h2>
+      <p>$50</p>
+      <button onclick="addToCart('Product 3', 50)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="./e images/download.jpeg" alt="Product 3">
+      <h2>Product 3</h2>
+      <p>$50</p>
+      <button onclick="addToCart('Product 3', 50)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="./e images/download (4).jpeg" alt="Product 3">
+      <h2>Product 3</h2>
+      <p>$50</p>
+      <button onclick="addToCart('Product 3', 50)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="./e images/download (3).jpeg" alt="Product 3">
+      <h2>Product 3</h2>
+      <p>$50</p>
+      <button onclick="addToCart('Product 3', 50)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="./e images/download (3).jpeg" alt="Product 3">
+      <h2>Product 3</h2>
+      <p>$50</p>
+      <button onclick="addToCart('Product 3', 50)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="./e images/download (5).jpeg" alt="Product 3">
+      <h2>Product 3</h2>
+      <p>$50</p>
+      <button onclick="addToCart('Product 3', 50)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="./e images/download (3).jpeg" alt="Product 3">
+      <h2>Product 3</h2>
+      <p>$50</p>
+      <button onclick="addToCart('Product 3', 50)">Add to Cart</button>
+    </div>
+     <div class="product">
+      <img src="./e images/download (3).jpeg" alt="Product 3">
+      <h2>Product 3</h2>
+      <p>$50</p>
+      <button onclick="addToCart('Product 3', 50)">Add to Cart</button>
+    </div>
+     <div class="product">
+      <img src="./e images/download (3).jpeg" alt="Product 3">
+      <h2>Product 3</h2>
+      <p>$50</p>
+      <button onclick="addToCart('Product 3', 50)">Add to Cart</button>
+    </div>
+  </section>
+
+  <script>
+    function addToCart(name, price) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push({ name, price });
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(name + " added to cart!");
+    }
+
+    function toggleMenu() {
+      const nav = document.getElementById("nav-links");
+      nav.classList.toggle("active");
+    }
+  </script>
+</body>
+</html>
