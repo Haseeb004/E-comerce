@@ -16,6 +16,7 @@
     body {
       background: #f5f6fa;
       color: #333;
+      line-height: 1.6;
     }
 
     /* Navbar */
@@ -24,21 +25,21 @@
       justify-content: space-between;
       align-items: center;
       background: #2c3e50;
-      padding: 15px 40px;
+      padding: 15px 20px;
+      flex-wrap: wrap;
     }
 
     .navbar h1 {
       color: #fff;
-      font-size: 24px;
+      font-size: 1.5rem;
     }
 
     .navbar ul {
       list-style: none;
       display: flex;
-    }
-
-    .navbar ul li {
-      margin-left: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 10px;
     }
 
     .navbar ul li a {
@@ -46,6 +47,7 @@
       text-decoration: none;
       font-weight: 500;
       transition: color 0.3s ease;
+      font-size: 0.9rem;
     }
 
     .navbar ul li a:hover {
@@ -55,16 +57,16 @@
     /* Cart Container */
     .cart {
       max-width: 900px;
-      margin: 40px auto;
+      margin: 30px auto;
       background: #fff;
-      padding: 30px;
+      padding: 25px;
       border-radius: 12px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
 
     .cart h2 {
       margin-bottom: 20px;
-      font-size: 26px;
+      font-size: 1.8rem;
       color: #2c3e50;
       border-bottom: 2px solid #1abc9c;
       padding-bottom: 10px;
@@ -74,6 +76,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
       padding: 15px;
       margin-bottom: 15px;
       background: #f9f9f9;
@@ -87,15 +90,18 @@
     }
 
     .cart-item p {
-      margin: 0;
-      font-size: 16px;
+      margin: 5px 0;
+      font-size: 1rem;
       font-weight: 500;
+      flex: 1 1 60%;
     }
 
     .cart-item span {
-      font-size: 15px;
+      font-size: 1rem;
       color: #27ae60;
       font-weight: bold;
+      flex: 1 1 20%;
+      text-align: right;
     }
 
     .cart-item button {
@@ -106,6 +112,9 @@
       border-radius: 5px;
       cursor: pointer;
       transition: background 0.3s ease;
+      flex: 1 1 15%;
+      max-width: 120px;
+      margin-top: 5px;
     }
 
     .cart-item button:hover {
@@ -115,7 +124,7 @@
     /* Total Section */
     #total {
       margin-top: 20px;
-      font-size: 20px;
+      font-size: 1.2rem;
       font-weight: bold;
       text-align: right;
       color: #2c3e50;
@@ -130,7 +139,7 @@
       background: #1abc9c;
       border: none;
       color: #fff;
-      font-size: 18px;
+      font-size: 1.1rem;
       font-weight: bold;
       border-radius: 8px;
       cursor: pointer;
@@ -139,6 +148,54 @@
 
     .checkout-btn:hover {
       background: #16a085;
+    }
+
+    /* Responsive Media Queries */
+    @media (max-width: 768px) {
+      .cart {
+        padding: 20px;
+        margin: 20px 15px;
+      }
+
+      .cart h2 {
+        font-size: 1.5rem;
+      }
+
+      .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .cart-item p, .cart-item span, .cart-item button {
+        flex: 1 1 100%;
+        text-align: left;
+        margin: 5px 0;
+      }
+
+      #total {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navbar h1 {
+        font-size: 1.2rem;
+      }
+
+      .navbar ul {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 5px;
+      }
+
+      .cart h2 {
+        font-size: 1.3rem;
+      }
+
+      .checkout-btn {
+        font-size: 1rem;
+        padding: 12px;
+      }
     }
   </style>
 </head>
@@ -163,48 +220,47 @@
   </div>
 
   <script>
-   let cart = JSON.parse(localStorage.getItem("cart")) || [];
-const cartItemsDiv = document.getElementById("cart-items");
-const totalDiv = document.getElementById("total");
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const cartItemsDiv = document.getElementById("cart-items");
+    const totalDiv = document.getElementById("total");
 
-function renderCart() {
-  cartItemsDiv.innerHTML = "";
-  let total = 0;
+    function renderCart() {
+      cartItemsDiv.innerHTML = "";
+      let total = 0;
 
-  if (cart.length === 0) {
-    cartItemsDiv.innerHTML = "<p>Your cart is empty.</p>";
-  }
+      if (cart.length === 0) {
+        cartItemsDiv.innerHTML = "<p>Your cart is empty.</p>";
+      }
 
-  cart.forEach((item, index) => {
-    total += item.price;
-    cartItemsDiv.innerHTML += `
-      <div class="cart-item">
-        <p>${item.name}</p>
-        <span>$${item.price}</span>
-        <button onclick="removeItem(${index})">Remove</button>
-      </div>
-    `;
-  });
+      cart.forEach((item, index) => {
+        total += item.price;
+        cartItemsDiv.innerHTML += `
+          <div class="cart-item">
+            <p>${item.name}</p>
+            <span>$${item.price}</span>
+            <button onclick="removeItem(${index})">Remove</button>
+          </div>
+        `;
+      });
 
-  totalDiv.innerText = "Total: $" + total;
-}
+      totalDiv.innerText = "Total: $" + total;
+    }
 
-function removeItem(index) {
-  cart.splice(index, 1);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  renderCart();
-}
+    function removeItem(index) {
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+    }
 
-function checkout() {
-  if (cart.length === 0) {
-    alert("⚠️ Your cart is empty!");
-    return;
-  }
-  // Redirect to checkout page
-  window.location.href = "checkout.html";
-}
+    function checkout() {
+      if (cart.length === 0) {
+        alert("⚠️ Your cart is empty!");
+        return;
+      }
+      window.location.href = "checkout.html";
+    }
 
-renderCart();
+    renderCart();
   </script>
 
 </body>

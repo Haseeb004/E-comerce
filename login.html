@@ -1,133 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>E-Commerce Auth</title>
-  <style>
-    * {margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI",sans-serif;}
-    body {
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
-      display:flex; justify-content:center; align-items:center; height:100vh;
-    }
-    .container {
-      background:#fff; width:420px; padding:30px; border-radius:15px;
-      box-shadow:0 8px 25px rgba(0,0,0,0.15); text-align:center; animation:fadeIn 0.8s;
-    }
-    @keyframes fadeIn {from{opacity:0; transform:translateY(-20px);} to{opacity:1; transform:translateY(0);}}
-    h2 {margin-bottom:20px; color:#333;}
-    .form {display:none;}
-    .form.active {display:block; animation:fadeIn 0.5s;}
-    .input-group {position:relative; margin-bottom:18px;}
-    .input-group input {
-      width:100%; padding:12px 40px 12px 15px; border:1px solid #ddd;
-      border-radius:8px; outline:none; font-size:15px; transition:border 0.3s;
-    }
-    .input-group input:focus {border-color:#4facfe;}
-    .input-group i {
-      position:absolute; right:15px; top:50%; transform:translateY(-50%);
-      color:#aaa; font-size:18px;
-    }
-    button {
-      width:100%; padding:12px; border:none; border-radius:8px;
-      background:#4facfe; color:white; font-size:16px; font-weight:bold;
-      cursor:pointer; transition:background 0.3s;
-    }
-    button:hover {background:#0099ff;}
-    .toggle-link {margin-top:15px; font-size:14px;}
-    .toggle-link a {color:#4facfe; text-decoration:none; cursor:pointer;}
-    .toggle-link a:hover {text-decoration:underline;}
-  </style>
-  <script src="https://kit.fontawesome.com/yourkitid.js" crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Commerce Auth</title>
+<style>
+  * {margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI",sans-serif;}
+  body {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    display:flex; justify-content:center; align-items:center; min-height:100vh;
+    padding: 10px;
+  }
+
+  .container {
+    background:#fff; width:100%; max-width:420px; padding:30px; border-radius:15px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.15); text-align:center; animation:fadeIn 0.8s;
+  }
+
+  @keyframes fadeIn {from{opacity:0; transform:translateY(-20px);} to{opacity:1; transform:translateY(0);}}
+
+  h2 {margin-bottom:20px; color:#333; font-size:1.6rem;}
+  .form {display:none;}
+  .form.active {display:block; animation:fadeIn 0.5s;}
+  .input-group {position:relative; margin-bottom:18px;}
+  .input-group input {
+    width:100%; padding:12px 40px 12px 15px; border:1px solid #ddd;
+    border-radius:8px; outline:none; font-size:1rem; transition:border 0.3s;
+  }
+  .input-group input:focus {border-color:#4facfe;}
+  .input-group i {
+    position:absolute; right:15px; top:50%; transform:translateY(-50%);
+    color:#aaa; font-size:18px;
+  }
+  button {
+    width:100%; padding:12px; border:none; border-radius:8px;
+    background:#4facfe; color:white; font-size:1rem; font-weight:bold;
+    cursor:pointer; transition:background 0.3s;
+  }
+  button:hover {background:#0099ff;}
+  .toggle-link {margin-top:15px; font-size:14px;}
+  .toggle-link a {color:#4facfe; text-decoration:none; cursor:pointer;}
+  .toggle-link a:hover {text-decoration:underline;}
+
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .container {padding:25px;}
+    h2 {font-size:1.4rem;}
+    .input-group input {padding:10px 35px 10px 12px; font-size:0.95rem;}
+    button {padding:10px; font-size:0.95rem;}
+  }
+
+  @media (max-width: 480px) {
+    .container {padding:20px;}
+    h2 {font-size:1.2rem;}
+    .input-group input {padding:10px 30px 10px 12px; font-size:0.9rem;}
+    button {padding:10px; font-size:0.9rem;}
+  }
+</style>
+<script src="https://kit.fontawesome.com/yourkitid.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-  <div class="container">
-    <!-- Login Form -->
-    <div id="loginForm" class="form active">
-      <h2>Welcome Back 👋</h2>
-      <form>
-        <div class="input-group">
-          <input type="email" id="loginEmail" placeholder="Email Address" required>
-          <i class="fas fa-envelope"></i>
-        </div>
-        <div class="input-group">
-          <input type="password" id="loginPassword" placeholder="Password" required>
-          <i class="fas fa-lock"></i>
-        </div>
-        <button type="button" onclick="login()">Login</button>
-      </form>
-      <div class="toggle-link">
-        <p>Don’t have an account? <a onclick="toggleForm('signupForm')">Sign Up</a></p>
+<div class="container">
+  <!-- Login Form -->
+  <div id="loginForm" class="form active">
+    <h2>Welcome Back 👋</h2>
+    <form>
+      <div class="input-group">
+        <input type="email" id="loginEmail" placeholder="Email Address" required>
+        <i class="fas fa-envelope"></i>
       </div>
-    </div>
-
-    <!-- Signup Form -->
-    <div id="signupForm" class="form">
-      <h2>Create Account 🚀</h2>
-      <form>
-        <div class="input-group">
-          <input type="text" id="fullname" placeholder="Full Name" required>
-          <i class="fas fa-user"></i>
-        </div>
-        <div class="input-group">
-          <input type="email" id="signupEmail" placeholder="Email Address" required>
-          <i class="fas fa-envelope"></i>
-        </div>
-        <div class="input-group">
-          <input type="password" id="signupPassword" placeholder="Password" required>
-          <i class="fas fa-lock"></i>
-        </div>
-        <div class="input-group">
-          <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
-          <i class="fas fa-lock"></i>
-        </div>
-        <button type="button" onclick="signup()">Sign Up</button>
-      </form>
-      <div class="toggle-link">
-        <p>Already have an account? <a onclick="toggleForm('loginForm')">Login</a></p>
+      <div class="input-group">
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <i class="fas fa-lock"></i>
       </div>
+      <button type="button" onclick="login()">Login</button>
+    </form>
+    <div class="toggle-link">
+      <p>Don’t have an account? <a onclick="toggleForm('signupForm')">Sign Up</a></p>
     </div>
   </div>
 
-  <script>
-    function toggleForm(formId) {
-      document.querySelectorAll('.form').forEach(form => form.classList.remove('active'));
-      document.getElementById(formId).classList.add('active');
-    }
+  <!-- Signup Form -->
+  <div id="signupForm" class="form">
+    <h2>Create Account 🚀</h2>
+    <form>
+      <div class="input-group">
+        <input type="text" id="fullname" placeholder="Full Name" required>
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="input-group">
+        <input type="email" id="signupEmail" placeholder="Email Address" required>
+        <i class="fas fa-envelope"></i>
+      </div>
+      <div class="input-group">
+        <input type="password" id="signupPassword" placeholder="Password" required>
+        <i class="fas fa-lock"></i>
+      </div>
+      <div class="input-group">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+        <i class="fas fa-lock"></i>
+      </div>
+      <button type="button" onclick="signup()">Sign Up</button>
+    </form>
+    <div class="toggle-link">
+      <p>Already have an account? <a onclick="toggleForm('loginForm')">Login</a></p>
+    </div>
+  </div>
+</div>
 
-    function login() {
-      let email = document.getElementById("loginEmail").value;
-      let password = document.getElementById("loginPassword").value;
+<script>
+  function toggleForm(formId) {
+    document.querySelectorAll('.form').forEach(form => form.classList.remove('active'));
+    document.getElementById(formId).classList.add('active');
+  }
 
-      if (email && password) {
-        alert("✅ Login Successful! Redirecting...");
-        window.location.href = "home.html";
-      } else {
-        alert("❌ Please enter valid credentials.");
-      }
-    }
-
-    function signup() {
-      let fullname = document.getElementById("fullname").value;
-      let email = document.getElementById("signupEmail").value;
-      let password = document.getElementById("signupPassword").value;
-      let confirmPassword = document.getElementById("confirmPassword").value;
-
-      if (!fullname || !email || !password) {
-        alert("❌ Please fill all fields.");
-        return;
-      }
-
-      if (password !== confirmPassword) {
-        alert("❌ Passwords do not match.");
-        return;
-      }
-
-      alert("✅ Account created successfully for " + fullname + "! Redirecting...");
+  function login() {
+    let email = document.getElementById("loginEmail").value;
+    let password = document.getElementById("loginPassword").value;
+    if(email && password){
+      alert("✅ Login Successful! Redirecting...");
       window.location.href = "home.html";
+    } else {
+      alert("❌ Please enter valid credentials.");
     }
-  </script>
+  }
+
+  function signup() {
+    let fullname = document.getElementById("fullname").value;
+    let email = document.getElementById("signupEmail").value;
+    let password = document.getElementById("signupPassword").value;
+    let confirmPassword = document.getElementById("confirmPassword").value;
+
+    if(!fullname || !email || !password){
+      alert("❌ Please fill all fields.");
+      return;
+    }
+    if(password !== confirmPassword){
+      alert("❌ Passwords do not match.");
+      return;
+    }
+    alert("✅ Account created successfully for "+fullname+"! Redirecting...");
+    window.location.href = "home.html";
+  }
+</script>
 
 </body>
 </html>
